@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import MicroFrontend from "./MicroFrontend";
@@ -8,65 +8,31 @@ import "./App.css";
 const defaultHistory = createBrowserHistory();
 
 const {
-  REACT_APP_DOGS_HOST: dogsHost,
-  REACT_APP_CATS_HOST: catsHost,
+  REACT_APP_DOGS_HOST: headerHost,
+  REACT_APP_CATS_HOST: footerHost,
 } = process.env;
 
-function Header() {
+function Header({ history }) {
+  return <MicroFrontend history={history} host={headerHost} name="Dogs" />;
+}
+
+function Footer({ history }) {
+  return <MicroFrontend history={history} host={footerHost} name="Cats" />;
+}
+
+function Home() {
   return (
-    <div className="banner">
-      <h1 className="banner-title">&#128571; Cats and Dogs &#128021;</h1>
-      <h4>Random pics of cats and dogs</h4>
-    </div>
-  );
-}
-
-function Dogs({ history }) {
-  return <MicroFrontend history={history} host={dogsHost} name="Dogs" />;
-}
-
-function Cats({ history }) {
-  return <MicroFrontend history={history} host={catsHost} name="Cats" />;
-}
-
-function GreetingCat({ history }) {
-  return (
-    <div>
-      <Header />
+    <div className="container">
+       <div>
+         <h1>Header and Footer</h1>
+         <h4>This container includes the seperate Header and Footer</h4>
+       </div>
       <div className="home">
-        <MicroFrontend history={history} host={catsHost} name="Cats" />
-      </div>
-    </div>
-  );
-}
-
-function Home({ history }) {
-  const [input, setInput] = useState("");
-
-  const handleOnClick = () => {
-    history.push(`/cat/${input}`);
-  };
-
-  return (
-    <div>
-      <Header />
-      <div className="home">
-        <input
-          placeholder="Insert a greeting"
-          defaultValue={input}
-          onBlur={(e) => setInput(e.target.value)}
-        />
-        <button onClick={handleOnClick}>Greet Me</button>
-      </div>
-
-      <div className="home">
-        <div className="content">
-          <div className="cat">
-            <Cats />
-          </div>
-          <div className="dog">
-            <Dogs />
-          </div>
+        <div className="header">
+          <Header />
+        </div>
+        <div className="footer">
+          <Footer />
         </div>
       </div>
     </div>
@@ -79,7 +45,6 @@ function App() {
       <React.Fragment>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/cat/:greeting" component={GreetingCat} />
         </Switch>
       </React.Fragment>
     </BrowserRouter>
