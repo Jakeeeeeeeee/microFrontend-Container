@@ -10,6 +10,7 @@ const defaultHistory = createBrowserHistory();
 const {
   REACT_APP_DOGS_HOST: headerHost,
   REACT_APP_CATS_HOST: footerHost,
+  REACT_APP_CONTENT_HOST: contentHost,
 } = process.env;
 
 function Header({ history }) {
@@ -18,6 +19,10 @@ function Header({ history }) {
 
 function Footer({ history }) {
   return <MicroFrontend history={history} host={footerHost} name="Cats" />;
+}
+
+function Content({ history }) {
+  return <MicroFrontend history={history} host={contentHost} name="Content" />;
 }
 
 function Home() {
@@ -30,6 +35,9 @@ function Home() {
       <div className="home">
         <div className="header">
           <Header />
+        </div>
+        <div className="content">
+          <Content />
         </div>
         <div className="footer">
           <Footer />
